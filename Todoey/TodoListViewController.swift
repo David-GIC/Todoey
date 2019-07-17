@@ -11,10 +11,17 @@ import UIKit
 class TodoListViewController : UITableViewController {
     
     var itemArray = ["item1", "item2", "item3"]
+    
+    let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        // To show data that we store on List
+        if let items = UserDefaults.standard.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items
+        }
+        
     }
     
     // MARK - Table delegate Method
@@ -59,6 +66,9 @@ class TodoListViewController : UITableViewController {
             print(textField.text!)
             
             self.itemArray.append(textField.text!)
+            
+            // to store data on local storage identified by TodoListArray key
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             
             self.tableView.reloadData()
             
